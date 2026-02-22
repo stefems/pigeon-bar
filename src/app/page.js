@@ -32,7 +32,7 @@ export default function Home() {
               src="/logo-inverted.JPG"
             />
           {/* cubes gif */}
-          {gifLoading &&
+          {/* {gifLoading &&
             <Image
               loading="eager"
               fetchPriority="high"
@@ -42,7 +42,7 @@ export default function Home() {
               className={styles.cubes}
               src="/cubes-static.png"
             />
-          }
+          } */}
           <Image
             width="500" height="500"
             // sizes="(max-width: 1080px) 100vw, 33vw"
