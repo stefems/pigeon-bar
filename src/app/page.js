@@ -1,64 +1,65 @@
+"use client"
 import Image from "next/image";
 import styles from "./page.module.css";
 
+import Link from 'next/link'
+import React, { useState } from "react";
+
 export default function Home() {
+
+  const [gifLoading, setGifLoading] = useState(true);
+  console.log(gifLoading);
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Image
+        {/* <Image
           className={styles.logo}
           src="/next.svg"
           alt="Next.js logo"
           width={100}
           height={20}
           priority
-        />
+        /> */}
         <div className={styles.intro}>
-          <h1>To get started, edit the page.js file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
+          {/* home logo width="1242" height="198" */}
+          <Image
+              loading="eager"
+              fetchPriority="high"
+              width="1242" height="198" 
+              // sizes="(max-width: 1080px) 100vw, 33vw"
+              alt={"geometric styling of pigeon"}
               className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+              src="/logo-inverted.JPG"
             />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          {/* cubes gif */}
+          {gifLoading &&
+            <Image
+              loading="eager"
+              fetchPriority="high"
+              width="500" height="500"
+              // sizes="(max-width: 1080px) 100vw, 33vw"
+              alt={"geometric animation of grid of squares"}
+              className={styles.cubes}
+              src="/cubes-static.png"
+            />
+          }
+          <Image
+            width="500" height="500"
+            // sizes="(max-width: 1080px) 100vw, 33vw"
+            alt={"geometric animation of grid of squares"}
+            className={`${styles.cubes} ${gifLoading && styles.hidden}`}
+            src="/home-cubes.gif"
+            onLoad={() => setGifLoading(false)}
+            onError={(e) => console.error(e.target.id)}
+          />
+          {/* nav menu */}
+          <nav  className={styles.nav}>
+            <Link href="/about">about</Link>
+            <Link href="https://maps.app.goo.gl/cRxxzn8TKhwysGsa8">location</Link>
+            <Link href="/hours">hours</Link>
+            <Link href="/menu">menu</Link>
+            <Link href="mailto:pigeondenver@gmail.com">contact</Link>
+          </nav>
         </div>
       </main>
     </div>
