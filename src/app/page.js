@@ -32,7 +32,7 @@ export default function Home() {
               src="/logo-inverted.JPG"
             />
           {/* cubes gif */}
-          {/* {gifLoading &&
+          {gifLoading &&
             <Image
               loading="eager"
               fetchPriority="high"
@@ -42,8 +42,8 @@ export default function Home() {
               className={styles.cubes}
               src="/cubes-static.png"
             />
-          } */}
-          <Image
+          }
+          {/* <Image
             width="500" height="500"
             // sizes="(max-width: 1080px) 100vw, 33vw"
             alt={"geometric animation of grid of squares"}
@@ -51,7 +51,7 @@ export default function Home() {
             src="/home-cubes.gif"
             onLoad={() => setGifLoading(false)}
             onError={(e) => console.error(e.target.id)}
-          />
+          /> */}
           {/* nav menu */}
           <nav  className={styles.nav}>
             <Link href="/about">about</Link>
