@@ -29,7 +29,7 @@ export default function Home() {
               // sizes="(max-width: 1080px) 100vw, 33vw"
               alt={"geometric styling of pigeon"}
               className={styles.logo}
-              src="/logo-inverted.JPG"
+              src="/logo.jpg"
             />
           {/* cubes gif */}
           {gifLoading &&
