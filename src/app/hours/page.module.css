@@ -18,6 +18,7 @@
   
   .nav a {
     font-weight: 600;
+    color: rgb(237, 237, 237);
   }
   .nav a:hover {
     text-decoration: underline;
