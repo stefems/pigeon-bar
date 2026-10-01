@@ -66,8 +66,8 @@ button clears. Override with `SHEET_SOURCE=live` or `SHEET_SOURCE=draft`.
 ### Branches
 
 - `main` → pigeonbar.com (production).
-- `staging` → the open pull request "Staging" gets a Netlify deploy preview
-  URL (see the PR's checks). Merge work into `staging` to see it there, then
+- `staging` → https://deploy-preview-2--pigeon-bar.netlify.app, built by
+  Netlify from the open pull request stefems/pigeon-bar#2 ("Staging"). Merge work into `staging` to see it there, then
   merge `staging` into `main` to go live. Keep that PR open; never merge it
   from the GitHub button — merge `staging` into `main` with a separate PR.
 
