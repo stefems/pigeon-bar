@@ -47,6 +47,15 @@ images in `public/nav/` (location, hours, menu, contact, home) that artwork is
 shown; any other label renders as text. `/location` and `/contact` are on-site
 pages; external URLs and `mailto:` links also work.
 
+### Contact form
+
+Messages from `/contact` go to the Apps Script web app (`contactEndpoint` in
+`src/content/sheet.json`), which emails them to the address in Settings →
+`email` and logs them in a hidden-by-default `Messages` tab of the sheet. The
+site's `/api/contact` route validates and forwards; a honeypot field and a
+per-sender limit of 5 messages an hour keep spam down. To redeploy the script
+after editing it: Deploy → Manage deployments → edit → New version.
+
 ### Previewing before publishing
 
 Local dev (`npm run dev`) and Netlify deploy previews read the *editing* tabs,
