@@ -49,11 +49,19 @@ export default async function MenuPage() {
           <div className={styles.grid}>
             {menu.map((section, i) => (
               <section
-                key={section.title}
+                key={section.title || `art-${i}`}
                 className={`${styles.block} ${isLight(i) ? styles.light : styles.dark}`}
               >
-                <h2 className={styles.heading}>{section.title}</h2>
+                {section.title && <h2 className={styles.heading}>{section.title}</h2>}
                 {section.note && <p className={styles.note}>{section.note}</p>}
+                {section.image && (
+                  <div
+                    className={`tinted ${styles.art}`}
+                    role="img"
+                    aria-label={section.title || "Menu artwork"}
+                    style={{ WebkitMaskImage: `url(${section.image})`, maskImage: `url(${section.image})` }}
+                  />
+                )}
                 {section.items && <Items items={section.items} />}
                 {section.groups?.map((group) => (
                   <div key={group.title} className={styles.group}>

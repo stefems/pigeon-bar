@@ -13,13 +13,20 @@ matter, extra columns are ignored):
 | Tab | Columns |
 | --- | --- |
 | Hours | Day, Time |
-| Menu | Section, Group, Name, Price, Description, Notes, Pairing |
+| Menu | Section, Group, Name, Price, Description, Notes, Pairing, Image |
 | Settings | Key, Value (keys: `name`, `email`, `mapsUrl`) |
 | Links | Label, Link, New tab (yes/no) |
 
 Menu tips: rows are grouped by Section in the order they first appear. Fill
 Group for sub-headings like "Cans / Bottles". A row with a Section but no Name
-sets that section's note (e.g. "Coming soon") from the Description column.
+sets that section's note (e.g. "Coming soon") from the Description column, or
+its artwork from the Image column (a file in `public/`, e.g. `/menu-chess.png`).
+Name the Section `(art)` for an image-only block; a title in parentheses is
+not shown.
+
+Footer links: if a link's Label matches one of the client's hand-drawn link
+images in `public/nav/` (location, hours, menu, contact, home) that artwork is
+shown; any other label renders as text.
 
 ### How it stays fast and safe
 

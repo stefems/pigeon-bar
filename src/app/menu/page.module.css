@@ -75,6 +75,19 @@
   margin-top: 0;
 }
 
+.art {
+  width: 100%;
+  min-height: 240px;
+  height: 100%;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+}
+
+.block:has(.art) {
+  padding: 0;
+  display: flex;
+}
+
 .note {
   text-align: center;
   text-transform: uppercase;
@@ -163,6 +176,19 @@
   .inlineDesc { font-size: 14px; }
   .desc { font-size: 13px; margin-left: 14px; }
   .meta { font-size: 12px; margin-left: 14px; }
-  .note { font-size: 15px; padding: 56px 0 24px; }
+  .art {
+  width: 100%;
+  min-height: 240px;
+  height: 100%;
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+}
+
+.block:has(.art) {
+  padding: 0;
+  display: flex;
+}
+
+.note { font-size: 15px; padding: 56px 0 24px; }
   .items { gap: 12px; }
 }

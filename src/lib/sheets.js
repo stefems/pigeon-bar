@@ -3,12 +3,14 @@
 //
 // Sheet layout (one tab each, header row required, column order doesn't matter):
 //   Hours:    Day | Time
-//   Menu:     Section | Group | Name | Price | Description | Notes | Pairing
+//   Menu:     Section | Group | Name | Price | Description | Notes | Pairing | Image
 //   Settings: Key | Value            (keys: name, email, mapsUrl)
 //   Links:    Label | Link | New tab (yes/no)
 //
 // A Menu row with a Section but no Name sets that section's note
-// (e.g. "Coming soon") from its Description column.
+// (e.g. "Coming soon") from its Description column, or its artwork from the
+// Image column (a path under public/, e.g. /menu-chess.png). Use a Section
+// name like "(art)" for an image-only block; a title in parentheses is hidden.
 
 import sheetConfig from "../content/sheet.json" with { type: "json" };
 import siteJson from "../content/site.json" with { type: "json" };
@@ -51,11 +53,16 @@ export function parseMenu(rows) {
     if (!r.section) continue;
     let sec = byTitle.get(r.section);
     if (!sec) {
-      sec = { title: r.section, note: "", items: [], groups: [] };
+      const hidden = /^\(.*\)$/.test(r.section);
+      sec = { title: hidden ? "" : r.section, note: "", items: [], groups: [] };
       byTitle.set(r.section, sec);
       sections.push(sec);
     }
-    if (!r.name) { if (r.description) sec.note = r.description; continue; }
+    if (!r.name) {
+      if (r.description) sec.note = r.description;
+      if (r.image) sec.image = r.image;
+      continue;
+    }
     const item = { name: r.name };
     if (r.price) item.price = r.price;
     if (r.description) item.desc = r.description;
