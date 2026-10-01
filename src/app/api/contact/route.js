@@ -25,12 +25,16 @@ export async function POST(req) {
   }
 
   try {
-    const res = await fetch(sheetConfig.contactEndpoint, {
+    // Apps Script answers a POST with a 302 to a one-time result URL that must
+    // be fetched with a plain GET, so follow it by hand.
+    let res = await fetch(sheetConfig.contactEndpoint, {
       method: "POST",
       headers: { "content-type": "text/plain;charset=utf-8" },
       body: JSON.stringify({ name, email, message }),
-      redirect: "follow",
+      redirect: "manual",
     });
+    const next = res.headers.get("location");
+    if (res.status >= 300 && res.status < 400 && next) res = await fetch(next, { redirect: "follow" });
     const text = await res.text();
     let data;
     try { data = JSON.parse(text); } catch { data = { ok: false, error: "Unexpected reply from mailer." }; }
