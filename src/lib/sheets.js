@@ -1,11 +1,18 @@
 // Reads site content from a public Google Sheet, falling back to the JSON
 // snapshots in src/content/ when the sheet is unreachable or malformed.
 //
+// The sheet has editing tabs and hidden "Live" copies (see google/apps-script.gs).
+// Production reads the Live tabs; local dev, previews and the staging branch
+// read the editing tabs so unpublished changes can be checked first.
+// Override with SHEET_SOURCE=live|draft.
+//
 // Sheet layout (one tab each, identified by gid in sheet.json; header row
 // required, column order doesn't matter):
 //   Hours:    Day | Time
 //   Menu:     Section | Group | Name | Price | Description | Notes | Pairing | Image
-//   Settings: Key | Value            (keys: name, email, mapsUrl)
+//   Settings: Key | Value            (keys: name, email, mapsUrl, address, phone,
+//                                     instagram, mapQuery — any extra key is
+//                                     exposed on site.settings)
 //   Links:    Label | Link | New tab (yes/no)
 //
 // A Menu row with a Section but no Name sets that section's note
@@ -85,9 +92,14 @@ export function parseMenu(rows) {
   return sections;
 }
 
+export function sheetSource() {
+  if (process.env.SHEET_SOURCE === "live" || process.env.SHEET_SOURCE === "draft") return process.env.SHEET_SOURCE;
+  return process.env.CONTEXT === "production" ? "live" : "draft";
+}
+
 export function parseSite(settingsRows, linksRows) {
   const kv = Object.fromEntries(
-    rowsToObjects(settingsRows, ["key", "value"]).filter((r) => r.key).map((r) => [r.key, r.value])
+    rowsToObjects(settingsRows, ["key", "value"]).filter((r) => r.key).map((r) => [r.key.toLowerCase(), r.value])
   );
   const navLinks = rowsToObjects(linksRows, ["label", "link"])
     .filter((r) => r.label && r.link)
@@ -101,6 +113,7 @@ export function parseSite(settingsRows, linksRows) {
     name: kv.name || siteJson.name,
     email: kv.email || siteJson.email,
     mapsUrl: kv.mapsurl || kv["maps url"] || siteJson.mapsUrl,
+    settings: kv,
     navLinks,
   };
 }
@@ -108,7 +121,11 @@ export function parseSite(settingsRows, linksRows) {
 // Fetch everything from the sheet. Throws on any problem; callers decide the fallback.
 export async function fetchSheetContent() {
   if (!sheetConfig.sheetId) throw new Error("no sheetId configured");
-  const t = sheetConfig.tabs; // tab name -> gid (see src/content/sheet.json)
+  const source = sheetSource();
+  const t = sheetConfig.tabs[source]; // tab name -> gid (see src/content/sheet.json)
+  if (!t || Object.values(t).some((g) => g === null || g === undefined)) {
+    throw new Error(`${source} tab gids not configured in sheet.json`);
+  }
   const [hours, menu, settings, links] = await Promise.all([
     fetchTab(t.hours), fetchTab(t.menu), fetchTab(t.settings), fetchTab(t.links),
   ]);

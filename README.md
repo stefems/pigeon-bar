@@ -4,21 +4,31 @@ Website for Pigeon Bar, Denver. Built with [Next.js](https://nextjs.org) and dep
 
 ## Updating content (Google Sheet)
 
-Hours, menu and links come from a Google Sheet. Edit the sheet; the site
-updates itself within about a minute. No code, no GitHub.
+Hours, menu, links and contact details come from a Google Sheet. Nothing
+reaches the website until someone publishes.
 
 - Sheet: https://docs.google.com/spreadsheets/d/1RezABS51ZQvAP5kZ2sY6-uU_5kPBuqCmNsJs3Bh7358/edit
-- Its Apps Script project ("Pigeon Bar Website", sends the refresh ping):
+- Its Apps Script project ("Pigeon Bar Website"):
   https://script.google.com/home/projects/1-Mg6zt4hR8njU_RFyeX5vFQbqFfO7MUtgaT5eoDtAEth-K7dgKs_3xhp
 
-The sheet has four tabs. The header row must stay as is (column order doesn't
-matter, extra columns are ignored):
+### Editing and publishing
+
+1. Edit the `Hours`, `Menu`, `Settings` or `Links` tabs.
+2. In the sheet menu choose **Pigeon Bar → Publish to website**.
+   (**Show unpublished changes** lists what differs from the live site.)
+3. The live site updates within about a minute.
+
+Publishing copies the editing tabs into hidden `Live …` tabs, which are what
+production reads, then pings `/api/refresh`. The site also caches for 24 hours
+and re-fetches on its own after that.
+
+Tab layout (header row required, column order doesn't matter):
 
 | Tab | Columns |
 | --- | --- |
 | Hours | Day, Time |
 | Menu | Section, Group, Name, Price, Description, Notes, Pairing, Image |
-| Settings | Key, Value (keys: `name`, `email`, `mapsUrl`) |
+| Settings | Key, Value — `name`, `email`, `mapsUrl`, `address`, `phone`, `instagram`, `mapQuery` |
 | Links | Label, Link, New tab (yes/no) |
 
 Menu tips: rows are grouped by Section in the order they first appear. Fill
@@ -26,45 +36,42 @@ Group for sub-headings like "Cans / Bottles". A row with a Section but no Name
 sets that section's note (e.g. "Coming soon") from the Description column, or
 its artwork from the Image column (a file in `public/`, e.g. `/menu-chess.png`).
 Name the Section `(art)` for an image-only block; a title in parentheses is
-not shown.
+not shown. Prices can be typed as `16` or `$16`.
+
+Settings: `address` shows on the Location and Contact pages (line breaks are
+kept). `phone` and `instagram` appear on Contact when filled in. `mapQuery` is
+what the embedded map searches for (defaults to the address).
 
 Footer links: if a link's Label matches one of the client's hand-drawn link
 images in `public/nav/` (location, hours, menu, contact, home) that artwork is
-shown; any other label renders as text.
+shown; any other label renders as text. `/location` and `/contact` are on-site
+pages; external URLs and `mailto:` links also work.
 
-### How it stays fast and safe
+### Previewing before publishing
 
-- The site caches the sheet for 24 hours (`cacheSeconds` in
-  `src/content/sheet.json`).
-- An Apps Script in the sheet pings `/api/refresh` about a minute after the
-  last edit, which clears that cache. There is also a **Pigeon Bar → Publish
-  changes now** menu in the sheet for a manual refresh.
-- Every night a GitHub Action snapshots the sheet into `src/content/*.json`
-  and commits it. If Google is ever unreachable, pages serve that snapshot.
+Local dev (`npm run dev`) and Netlify deploy previews read the *editing* tabs,
+so unpublished edits can be checked there. Production reads the `Live` tabs.
+Override with `SHEET_SOURCE=live` or `SHEET_SOURCE=draft`.
 
-### One-time setup (already done for the sheet above; kept for reference)
+### Fallback
 
-1. **Create the sheet.** New Google Sheet with tabs named `Hours`, `Menu`,
-   `Settings`, `Links`. Import the matching CSV from `google/templates/` into
-   each tab (File → Import → Upload → *Replace current sheet*).
-2. **Share it:** Share → Anyone with the link → Viewer.
-3. **Point the site at it.** Copy the ID from the sheet URL
-   (`docs.google.com/spreadsheets/d/<ID>/edit`) into `sheetId` in
-   `src/content/sheet.json`, and each tab's `gid` (the number after `gid=` in
-   the URL when that tab is open) into `tabs`. Commit and push.
-4. **Refresh token.** Run `npm run make-token`. Put the printed *hash* in
-   `refreshTokenHash` in `src/content/sheet.json` (commit it). Keep the *token*
-   private. (The hash currently committed has its token in `.refresh-token` on
-   the machine that set this up.)
-5. **Install the Apps Script.** In the sheet: Extensions → Apps Script. Paste
-   `google/apps-script.gs`, set `REFRESH_TOKEN`, then follow the install notes
-   at the top of that file to add the on-edit trigger.
-6. **Nightly snapshot** needs nothing: the workflow in
-   `.github/workflows/snapshot-sheet.yml` uses GitHub's built-in token. Run it
-   by hand from the Actions tab the first time to confirm it works.
+Every night a GitHub Action snapshots the Live tabs into `src/content/*.json`
+and commits it. If Google is ever unreachable, pages serve that snapshot.
 
-Manual refresh from anywhere: open
-`https://pigeonbar.com/api/refresh?token=<token>`.
+### One-time setup (already done; kept for reference)
+
+1. Create a Google Sheet with tabs `Hours`, `Menu`, `Settings`, `Links` and
+   import the matching CSV from `google/templates/`.
+2. Share → Anyone with the link → Viewer.
+3. Put the sheet ID and the four editing tabs' `gid`s under `tabs.draft` in
+   `src/content/sheet.json`.
+4. `npm run make-token`; commit the hash as `refreshTokenHash`, keep the token.
+5. Extensions → Apps Script: paste `google/apps-script.gs`, set
+   `REFRESH_TOKEN`, save, run `publishToWebsite` once and approve the prompt.
+   The log prints the Live tabs' gids; put them under `tabs.live`.
+6. Reload the sheet; the **Pigeon Bar** menu appears.
+
+Manual refresh from anywhere: `https://pigeonbar.com/api/refresh?token=<token>`.
 
 Images live in `public/`. The logo is `public/logo.jpg` and the home-page animation is `public/cubes.mp4` (800×800, no audio, ~2 MB) with `public/cubes-static.png` as its poster. If the video is ever replaced, re-encode it the same way so it stays small:
 

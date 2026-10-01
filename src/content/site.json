@@ -2,11 +2,19 @@
   "name": "Pigeon Bar",
   "email": "pigeondenver@gmail.com",
   "mapsUrl": "https://maps.app.goo.gl/cRxxzn8TKhwysGsa8",
+  "settings": {
+    "name": "Pigeon Bar",
+    "email": "pigeondenver@gmail.com",
+    "mapsurl": "https://maps.app.goo.gl/cRxxzn8TKhwysGsa8",
+    "address": "",
+    "phone": "",
+    "instagram": "",
+    "mapquery": "Pigeon Bar Denver"
+  },
   "navLinks": [
     {
       "label": "location",
-      "href": "https://maps.app.goo.gl/cRxxzn8TKhwysGsa8",
-      "external": true
+      "href": "/location"
     },
     {
       "label": "hours",
@@ -18,7 +26,7 @@
     },
     {
       "label": "contact",
-      "href": "mailto:pigeondenver@gmail.com"
+      "href": "/contact"
     }
   ]
 }
