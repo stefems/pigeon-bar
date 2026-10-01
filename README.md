@@ -7,6 +7,10 @@ Website for Pigeon Bar, Denver. Built with [Next.js](https://nextjs.org) and dep
 Hours, menu and links come from a Google Sheet. Edit the sheet; the site
 updates itself within about a minute. No code, no GitHub.
 
+- Sheet: https://docs.google.com/spreadsheets/d/1RezABS51ZQvAP5kZ2sY6-uU_5kPBuqCmNsJs3Bh7358/edit
+- Its Apps Script project ("Pigeon Bar Website", sends the refresh ping):
+  https://script.google.com/home/projects/1-Mg6zt4hR8njU_RFyeX5vFQbqFfO7MUtgaT5eoDtAEth-K7dgKs_3xhp
+
 The sheet has four tabs. The header row must stay as is (column order doesn't
 matter, extra columns are ignored):
 
@@ -38,7 +42,7 @@ shown; any other label renders as text.
 - Every night a GitHub Action snapshots the sheet into `src/content/*.json`
   and commits it. If Google is ever unreachable, pages serve that snapshot.
 
-### One-time setup
+### One-time setup (already done for the sheet above; kept for reference)
 
 1. **Create the sheet.** New Google Sheet with tabs named `Hours`, `Menu`,
    `Settings`, `Links`. Import the matching CSV from `google/templates/` into
