@@ -2,7 +2,15 @@ import Link from "next/link";
 import { navLinks } from "../content/site";
 import styles from "./Nav.module.css";
 
-export default function Nav() {
+// Full nav on the home page; sub-pages get a single HOME link (homeOnly).
+export default function Nav({ homeOnly = false }) {
+  if (homeOnly) {
+    return (
+      <nav className={styles.nav} aria-label="Main">
+        <Link href="/">home</Link>
+      </nav>
+    );
+  }
   return (
     <nav className={styles.nav} aria-label="Main">
       {navLinks.map((link) =>

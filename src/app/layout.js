@@ -1,11 +1,16 @@
-import { Jost } from "next/font/google";
-import Image from "next/image";
+import { Jost, Josefin_Sans } from "next/font/google";
 import "./globals.css";
 
 const jost = Jost({
   variable: "--font-body",
   subsets: ["latin"],
   weight: ["400", "500", "700"],
+});
+
+const josefin = Josefin_Sans({
+  variable: "--font-nav",
+  subsets: ["latin"],
+  weight: ["300"],
 });
 
 export const metadata = {
@@ -24,33 +29,13 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0f0f0f",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={jost.variable} style={{ "--font-heading": "var(--font-body)" }}>
-      <body>
-        {children}
-        <Image
-          priority
-          width="500"
-          height="500"
-          alt=""
-          aria-hidden="true"
-          className="overlay"
-          src="/Highlight.png"
-        />
-        <Image
-          priority
-          width="500"
-          height="500"
-          alt=""
-          aria-hidden="true"
-          className="overlay texture"
-          src="/Texture.png"
-        />
-      </body>
+    <html lang="en" className={`${jost.variable} ${josefin.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

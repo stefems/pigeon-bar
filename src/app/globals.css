@@ -1,8 +1,8 @@
 :root {
-  --bg: #0f0f0f;
-  --fg: #efe9dc;
-  --muted: #b9b2a4;
-  --line: rgba(239, 233, 220, 0.25);
+  --bg: #000000;
+  --fg: #fbf7be;
+  --muted: #cfcb9a;
+  --line: rgba(251, 247, 190, 0.3);
 }
 
 html,
@@ -17,7 +17,6 @@ body {
   font-family: var(--font-body), Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  position: relative;
   min-height: 100vh;
 }
 
@@ -32,17 +31,13 @@ a {
   text-decoration: none;
 }
 
-/* Paper highlight + grain texture, applied over every page. */
-.overlay {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
-  object-fit: cover;
-}
-
-.overlay.texture {
-  opacity: 0.03;
+/* Tints a white-on-black artwork (image or video) to the page text color. */
+.tinted {
+  background-color: var(--fg);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
