@@ -37,9 +37,15 @@ function tabUrl(gid) {
   return `https://docs.google.com/spreadsheets/d/${sheetConfig.sheetId}/export?format=csv&gid=${gid}`;
 }
 
+// Production caches for cacheSeconds (24h, refreshed by the Publish button).
+// Previews and local dev re-read the sheet every minute so draft edits show up.
+function cacheSeconds() {
+  return sheetSource() === "live" ? sheetConfig.cacheSeconds : 60;
+}
+
 async function fetchTab(tab) {
   const res = await fetch(tabUrl(tab), {
-    next: { revalidate: sheetConfig.cacheSeconds, tags: [SHEET_TAG] },
+    next: { revalidate: cacheSeconds(), tags: [SHEET_TAG] },
     headers: { accept: "text/csv" },
   });
   if (!res.ok) throw new Error(`${tab}: HTTP ${res.status}`);

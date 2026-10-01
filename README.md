@@ -58,9 +58,18 @@ after editing it: Deploy → Manage deployments → edit → New version.
 
 ### Previewing before publishing
 
-Local dev (`npm run dev`) and Netlify deploy previews read the *editing* tabs,
-so unpublished edits can be checked there. Production reads the `Live` tabs.
-Override with `SHEET_SOURCE=live` or `SHEET_SOURCE=draft`.
+Local dev (`npm run dev`) and Netlify deploy previews read the *editing* tabs
+and re-check the sheet every minute, so unpublished edits can be checked
+there. Production reads the `Live` tabs with a 24-hour cache that the Publish
+button clears. Override with `SHEET_SOURCE=live` or `SHEET_SOURCE=draft`.
+
+### Branches
+
+- `main` → pigeonbar.com (production).
+- `staging` → the open pull request "Staging" gets a Netlify deploy preview
+  URL (see the PR's checks). Merge work into `staging` to see it there, then
+  merge `staging` into `main` to go live. Keep that PR open; never merge it
+  from the GitHub button — merge `staging` into `main` with a separate PR.
 
 ### Fallback
 
