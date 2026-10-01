@@ -134,3 +134,10 @@ function settingsValue_(ss, key) {
   }
   return "";
 }
+
+// Run once from the editor to grant the "send email" permission (emails you, not the bar).
+function sendTestEmail() {
+  const me = Session.getEffectiveUser().getEmail();
+  MailApp.sendEmail({ to: me, subject: "Pigeon Bar contact form: test", body: "Mail permission works. Remaining daily quota: " + MailApp.getRemainingDailyQuota() });
+  console.log("Sent test email to " + me);
+}
