@@ -1,0 +1,72 @@
+// Menu content. Each section has a title and a list of items.
+// An item can have: name, price, desc (small text under the name),
+// and optional notes / pairing lines. Add or remove items freely.
+// A section can have `note` instead of items (e.g. "Coming soon").
+export const menu = [
+  {
+    title: "Cocktails",
+    items: [
+      { name: "Greek Ambassador", price: "$16", desc: "Sideritis Vodka, Poli Camomilla, Bianco Ambrato, Mastiha, Oregano" },
+      { name: "Pa'rriba", price: "$16", desc: "Agua de Bolivia, Aquardiente, Yerba + Bay syrup, Lime" },
+      { name: "Postcard No. 9", price: "$16", desc: "Peach Blossom Infused Oka Gin, Bitter Bianca, Antica Torino Bianco" },
+    ],
+  },
+  {
+    title: "Soda",
+    items: [
+      { name: "Pigeon-Cola", price: "$5", notes: "Citrus, Cardamom, Patchouli, Unrefined Cane Sugar", pairing: "Bourbon, Rye, Repo & Salt, Fernet" },
+      { name: "Tonic", price: "$5", notes: "Gentian, Lemon Grass, Pepper", pairing: "Gin, Vodka, Tequila" },
+      { name: "Lemon-Lime", price: "$5", notes: "Lemon & Lime Oleo, Citric & Malic Acid", pairing: "Gin, Vodka, Tequila" },
+      { name: "Belfast Ginger-Ale", price: "$5", notes: "Extracted Ginger, Cayenne, Rose oil, Cognac oil", pairing: "Whisky, Cognac, Rum & Lime" },
+    ],
+  },
+  {
+    title: "Beer",
+    groups: [
+      {
+        title: "Cans / Bottles",
+        items: [
+          { name: "Rolling Rock", price: "$6" },
+          { name: "Menabrea", price: "$10" },
+          { name: "Kirin", price: "$7" },
+          { name: "Tsing tao", price: "$7" },
+          { name: "Bohemia", price: "$6" },
+          { name: "Saison Dupont", desc: "750mL", price: "$24" },
+          { name: "Field Recordings Cider", desc: "750mL", price: "$24" },
+        ],
+      },
+      {
+        title: "Draft",
+        items: [
+          { name: "Bavik", price: "$8" },
+          { name: "Waldschanke Cider", price: "$7" },
+        ],
+      },
+    ],
+  },
+  {
+    title: "Wine",
+    groups: [
+      {
+        title: "By the glass",
+        items: [
+          { name: "DTW Red Blend", price: "$12", desc: "Oregon. Organic & Bio-Dynamic. Gamay-Pinot Blend." },
+          { name: "Michi's Farm White", price: "$12", desc: "Austria. Organic. White Blend." },
+          { name: "Fallen Grape Orange", price: "$10", desc: "California. Organic. Skin Contact." },
+          { name: "Rikyu Salt & Sage Sake", price: "$10", desc: "Tokebtsu Junmai. Sake." },
+        ],
+      },
+    ],
+  },
+  {
+    title: "R/X",
+    note: "Coming soon",
+  },
+  {
+    title: "N/A",
+    items: [
+      { name: "N/A Sfumato", price: "$8", desc: "Rhubarb, Hibiscus, Rose & Smoke" },
+      { name: "N/A Apertif", price: "$8", desc: "Honey, Lavender, Gentian, Juniper" },
+    ],
+  },
+];

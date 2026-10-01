@@ -1,0 +1,17 @@
+.header {
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 8px;
+}
+
+.logoLink {
+  display: block;
+  width: min(80vw, 480px);
+}
+
+.logo {
+  width: 100%;
+  height: auto;
+  filter: sepia(0.8);
+  mix-blend-mode: screen;
+}

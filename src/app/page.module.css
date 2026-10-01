@@ -1,113 +1,39 @@
-.page {
-  display: flex;
-  min-height: 100vh;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: black;
-}
-
 .main {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
   min-height: 100vh;
+  min-height: 100dvh;
   width: 100%;
   max-width: 1280px;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  padding: 40px 20px;
+  margin: 0 auto;
+  padding: 40px 16px;
 }
 
-.intro {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-}
-
-.intro .logo {
-  width: 72vh;
+.logo {
+  width: min(85vw, 640px);
   height: auto;
-  align-self: center;
-  filter: sepia(.8);
+  filter: sepia(0.8);
+  mix-blend-mode: screen;
 }
 
-.intro .cubes {
-  width: 100%;
+.cubes {
+  width: min(85vw, 56vh, 640px);
   height: auto;
-  max-height: 70vh;
+  aspect-ratio: 1 / 1;
   object-fit: contain;
-  margin: auto;
-}
-
-.highlight, .texture {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.texture {
-  opacity: 0.03;
-}
-
-.nav {
-  display: flex;
-  width: 72vh;
-  justify-content: space-evenly;
-  font-family: "Arial Black";
-  text-transform: uppercase;
-  font-size: 24px;
-  margin: auto;
-  filter: sepia(.8);
-}
-
-.nav a {
-  font-weight: 600;
-  color: rgb(237, 237, 237);
-}
-.nav a:hover {
-  text-decoration: underline;
-  font-weight: 600;
-}
-
-.hidden {
-  visibility: hidden;
-  position: absolute;
-}
-
-@media (max-width: 1080px) {
-  .cubes {
-    width: 66%;
-  }
-  .nav {
-    font-size: 18px;
-  }
-}
-
-@media (max-width: 900px) {
-  .logo {
-    width: 75% !important;
-  }
-  .nav {
-    font-size: 18px;
-    width: 100% !important;
-  }
+  mix-blend-mode: screen;
+  filter: sepia(0.8);
 }
 
 @media (max-width: 600px) {
   .main {
-    padding: 48px 24px;
+    gap: 16px;
+    padding: 32px 16px;
   }
-
-  .nav {
-    font-size: 12px;
-  }
-  .main {
-    padding: 40px 0px;
+  .cubes {
+    width: 85vw;
   }
 }
