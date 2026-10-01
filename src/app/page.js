@@ -12,6 +12,7 @@ export default function Home() {
           className={styles.cubes}
           src="/cubes.mp4"
           poster="/cubes-static.png"
+          preload="metadata"
           autoPlay
           muted
           loop

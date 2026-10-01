@@ -1,0 +1,94 @@
+# Decap CMS configuration. Editors sign in with GitHub at /admin;
+# every save becomes a commit on `main`, which Netlify deploys automatically.
+backend:
+  name: github
+  repo: stefems/pigeon-bar
+  branch: main
+  commit_messages:
+    update: "Update {{collection}} via CMS"
+
+# Uncomment while testing locally with `npx decap-server`.
+# local_backend: true
+
+media_folder: public/uploads
+public_folder: /uploads
+
+collections:
+  - name: hours
+    label: Hours
+    delete: false
+    files:
+      - name: hours
+        label: Opening hours
+        file: src/content/hours.json
+        fields:
+          - label: Days
+            name: hours
+            widget: list
+            allow_add: false
+            fields:
+              - { label: Day, name: day, widget: string }
+              - { label: Time, name: time, widget: string, hint: 'e.g. "4 pm - 12 am" or "Closed"' }
+
+  - name: menu
+    label: Menu
+    delete: false
+    files:
+      - name: menu
+        label: Menu
+        file: src/content/menu.json
+        fields:
+          - label: Sections
+            name: sections
+            widget: list
+            summary: "{{fields.title}}"
+            fields:
+              - { label: Section title, name: title, widget: string }
+              - { label: Note, name: note, widget: string, required: false, hint: 'Shown instead of items, e.g. "Coming soon"' }
+              - label: Items
+                name: items
+                widget: list
+                required: false
+                summary: "{{fields.name}} {{fields.price}}"
+                fields:
+                  - { label: Name, name: name, widget: string }
+                  - { label: Price, name: price, widget: string, required: false }
+                  - { label: Description, name: desc, widget: string, required: false }
+                  - { label: Notes, name: notes, widget: string, required: false }
+                  - { label: Pairing, name: pairing, widget: string, required: false }
+              - label: Sub-groups
+                name: groups
+                widget: list
+                required: false
+                summary: "{{fields.title}}"
+                hint: "Optional sub-headings inside a section, e.g. Cans / Bottles and Draft"
+                fields:
+                  - { label: Group title, name: title, widget: string }
+                  - label: Items
+                    name: items
+                    widget: list
+                    summary: "{{fields.name}} {{fields.price}}"
+                    fields:
+                      - { label: Name, name: name, widget: string }
+                      - { label: Price, name: price, widget: string, required: false }
+                      - { label: Description, name: desc, widget: string, required: false }
+
+  - name: site
+    label: Site settings
+    delete: false
+    files:
+      - name: site
+        label: Links and contact
+        file: src/content/site.json
+        fields:
+          - { label: Site name, name: name, widget: string }
+          - { label: Contact email, name: email, widget: string }
+          - { label: Google Maps link, name: mapsUrl, widget: string }
+          - label: Footer links
+            name: navLinks
+            widget: list
+            summary: "{{fields.label}}"
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string, hint: "/hours, https://..., or mailto:..." }
+              - { label: Opens in new tab, name: external, widget: boolean, required: false, default: false }

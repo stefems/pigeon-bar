@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { navLinks } from "../content/site";
+import { navLinks } from "../content";
 import styles from "./Nav.module.css";
 
 // Full nav on the home page; sub-pages get a single HOME link (homeOnly).

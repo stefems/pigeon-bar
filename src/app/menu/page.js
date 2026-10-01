@@ -1,5 +1,5 @@
 import Nav from "../../components/Nav";
-import { menu } from "../../content/menu";
+import { menu } from "../../content";
 import styles from "./page.module.css";
 
 export const metadata = { title: "Menu | Pigeon Bar" };

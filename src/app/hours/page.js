@@ -1,5 +1,5 @@
 import Nav from "../../components/Nav";
-import { hours } from "../../content/hours";
+import { hours } from "../../content";
 import styles from "./page.module.css";
 
 export const metadata = { title: "Hours | Pigeon Bar" };
