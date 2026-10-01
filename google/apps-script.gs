@@ -114,6 +114,7 @@ function doPost(e) {
   if (to) {
     MailApp.sendEmail({
       to,
+      name: "Pigeon Bar Website",
       replyTo: email,
       subject: `Pigeon Bar website: message from ${name}`,
       body: `${message}\n\n—\nFrom: ${name} <${email}>\nSent via pigeonbar.com contact form, ${when.toLocaleString()}`,
@@ -138,6 +139,6 @@ function settingsValue_(ss, key) {
 // Run once from the editor to grant the "send email" permission (emails you, not the bar).
 function sendTestEmail() {
   const me = Session.getEffectiveUser().getEmail();
-  MailApp.sendEmail({ to: me, subject: "Pigeon Bar contact form: test", body: "Mail permission works. Remaining daily quota: " + MailApp.getRemainingDailyQuota() });
+  MailApp.sendEmail({ to: me, name: "Pigeon Bar Website", subject: "Pigeon Bar contact form: test", body: "Mail permission works. Remaining daily quota: " + MailApp.getRemainingDailyQuota() });
   console.log("Sent test email to " + me);
 }
