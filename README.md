@@ -91,7 +91,7 @@ and commits it. If Google is ever unreachable, pages serve that snapshot.
 
 Manual refresh from anywhere: `https://pigeonbar.com/api/refresh?token=<token>`.
 
-Images live in `public/`. The logo is `public/logo.jpg` and the home-page animation is `public/cubes.mp4` (800×800, no audio, ~2 MB) with `public/cubes-static.png` as its poster. If the video is ever replaced, re-encode it the same way so it stays small:
+Images live in `public/`. The logo artwork is `public/logo.jpg` (original); the site draws `public/logo-mask.png`, a 1600px grayscale copy, as a CSS mask. The home-page animation is `public/cubes.mp4` (800×800, no audio, ~2 MB) with `public/cubes-poster.jpg` as its poster. If the video is ever replaced, re-encode it the same way so it stays small:
 
 ```bash
 ffmpeg -i source.mp4 -an -vf "scale=800:800,fps=24" -c:v libx264 -preset slow -crf 30 -pix_fmt yuv420p -movflags +faststart public/cubes.mp4

@@ -15,8 +15,8 @@
 .logo {
   width: min(88vw, 640px);
   aspect-ratio: 1242 / 198;
-  -webkit-mask-image: url("/logo.jpg");
-  mask-image: url("/logo.jpg");
+  -webkit-mask-image: url("/logo-mask.png");
+  mask-image: url("/logo-mask.png");
   -webkit-mask-mode: luminance;
   mask-mode: luminance;
 }

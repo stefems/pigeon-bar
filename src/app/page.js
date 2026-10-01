@@ -13,7 +13,7 @@ export default async function Home() {
         <video
           className={styles.cubes}
           src="/cubes.mp4"
-          poster="/cubes-static.png"
+          poster="/cubes-poster.jpg"
           preload="metadata"
           autoPlay
           muted
