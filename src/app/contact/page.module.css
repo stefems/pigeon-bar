@@ -1,0 +1,43 @@
+.formWrap {
+  margin: -8px 0 40px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.value {
+  font-size: 22px;
+  font-weight: 700;
+  border-bottom: 1px solid transparent;
+  white-space: pre-line;
+}
+
+.value:hover,
+.value:focus-visible {
+  border-bottom-color: var(--fg);
+  outline: none;
+}
+
+@media (max-width: 600px) {
+  .value {
+    font-size: 18px;
+    word-break: break-word;
+  }
+}

@@ -1,36 +1,109 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Pigeon Bar
 
-## Getting Started
+Website for Pigeon Bar, Denver. Built with [Next.js](https://nextjs.org) and deployed on Netlify. Pushes to `main` deploy to pigeonbar.com; pull requests get a Netlify deploy preview.
 
-First, run the development server:
+## Updating content (Google Sheet)
+
+Hours, menu, links and contact details come from a Google Sheet. Nothing
+reaches the website until someone publishes.
+
+- Sheet: https://docs.google.com/spreadsheets/d/1RezABS51ZQvAP5kZ2sY6-uU_5kPBuqCmNsJs3Bh7358/edit
+- Its Apps Script project ("Pigeon Bar Website"):
+  https://script.google.com/home/projects/1-Mg6zt4hR8njU_RFyeX5vFQbqFfO7MUtgaT5eoDtAEth-K7dgKs_3xhp
+
+### Editing and publishing
+
+1. Edit the `Hours`, `Menu`, `Settings` or `Links` tabs.
+2. In the sheet menu choose **Pigeon Bar → Publish to website**.
+   (**Show unpublished changes** lists what differs from the live site.)
+3. The live site updates within about a minute.
+
+Publishing copies the editing tabs into hidden `Live …` tabs, which are what
+production reads, then pings `/api/refresh`. The site also caches for 24 hours
+and re-fetches on its own after that.
+
+Tab layout (header row required, column order doesn't matter):
+
+| Tab | Columns |
+| --- | --- |
+| Hours | Day, Time |
+| Menu | Section, Group, Name, Price, Description, Notes, Pairing, Image |
+| Settings | Key, Value — `name`, `email`, `mapsUrl`, `address`, `phone`, `instagram`, `mapQuery` |
+| Links | Label, Link, New tab (yes/no) |
+
+Menu tips: rows are grouped by Section in the order they first appear. Fill
+Group for sub-headings like "Cans / Bottles". A row with a Section but no Name
+sets that section's note (e.g. "Coming soon") from the Description column, or
+its artwork from the Image column (a file in `public/`, e.g. `/menu-chess.png`).
+Name the Section `(art)` for an image-only block; a title in parentheses is
+not shown. Prices can be typed as `16` or `$16`.
+
+Settings: `address` shows on the Location and Contact pages (line breaks are
+kept). `phone` and `instagram` appear on Contact when filled in. `mapQuery` is
+what the embedded map searches for (defaults to the address).
+
+Footer links: if a link's Label matches one of the client's hand-drawn link
+images in `public/nav/` (location, hours, menu, contact, home) that artwork is
+shown; any other label renders as text. `/location` and `/contact` are on-site
+pages; external URLs and `mailto:` links also work.
+
+### Contact form
+
+Messages from `/contact` go to the Apps Script web app (`contactEndpoint` in
+`src/content/sheet.json`), which emails them to the address in Settings →
+`email` and logs them in a hidden-by-default `Messages` tab of the sheet. The
+site's `/api/contact` route validates and forwards; a honeypot field and a
+per-sender limit of 5 messages an hour keep spam down. To redeploy the script
+after editing it: Deploy → Manage deployments → edit → New version.
+
+### Previewing before publishing
+
+Local dev (`npm run dev`) and Netlify deploy previews read the *editing* tabs
+and re-check the sheet every minute, so unpublished edits can be checked
+there. Production reads the `Live` tabs with a 24-hour cache that the Publish
+button clears. Override with `SHEET_SOURCE=live` or `SHEET_SOURCE=draft`.
+
+### Branches
+
+- `main` → pigeonbar.com (production).
+- `staging` → https://deploy-preview-2--pigeon-bar.netlify.app, built by
+  Netlify from the open pull request stefems/pigeon-bar#2 ("Staging"). Merge work into `staging` to see it there, then
+  merge `staging` into `main` to go live. Keep that PR open; never merge it
+  from the GitHub button — merge `staging` into `main` with a separate PR.
+
+### Fallback
+
+Every night a GitHub Action snapshots the Live tabs into `src/content/*.json`
+and commits it. If Google is ever unreachable, pages serve that snapshot.
+
+### One-time setup (already done; kept for reference)
+
+1. Create a Google Sheet with tabs `Hours`, `Menu`, `Settings`, `Links` and
+   import the matching CSV from `google/templates/`.
+2. Share → Anyone with the link → Viewer.
+3. Put the sheet ID and the four editing tabs' `gid`s under `tabs.draft` in
+   `src/content/sheet.json`.
+4. `npm run make-token`; commit the hash as `refreshTokenHash`, keep the token.
+5. Extensions → Apps Script: paste `google/apps-script.gs`, set
+   `REFRESH_TOKEN`, save, run `publishToWebsite` once and approve the prompt.
+   The log prints the Live tabs' gids; put them under `tabs.live`.
+6. Reload the sheet; the **Pigeon Bar** menu appears.
+
+Manual refresh from anywhere: `https://pigeonbar.com/api/refresh?token=<token>`.
+
+Images live in `public/`. The logo artwork is `public/logo.jpg` (original); the site draws `public/logo-mask.png`, a 1600px grayscale copy, as a CSS mask. The home-page animation is `public/cubes.mp4` (800×800, no audio, ~2 MB) with `public/cubes-poster.jpg` as its poster. If the video is ever replaced, re-encode it the same way so it stays small:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+ffmpeg -i source.mp4 -an -vf "scale=800:800,fps=24" -c:v libx264 -preset slow -crf 30 -pix_fmt yuv420p -movflags +faststart public/cubes.mp4
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Local development
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+Requires Node 20 or newer.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000).

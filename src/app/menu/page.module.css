@@ -1,33 +1,190 @@
-.menu {
-    width: 100%;
-    object-fit: contain;
-    height: 80vh;
-    margin: 24px 0;
+.main {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 40px 12px 8px;
 }
-.nav {
-    display: flex;
-    width: 72vh;
-    justify-content: space-evenly;
-    font-family: "Arial Black";
-    text-transform: uppercase;
-    font-size: 24px;
-    margin: auto;
-    filter: sepia(.8);
-    margin-top: 24px;
-  }
-  
-  .nav a {
-    font-weight: 600;
-    color: rgb(237, 237, 237);
-  }
-  .nav a:hover {
-    text-decoration: underline;
-    font-weight: 600;
-  }
 
-  @media (max-width: 600px) {
-    .nav {
-        font-size: 12px;
-        width: 100%;
-    }
+.poster {
+  position: relative;
+  padding-right: 28px; /* room for the vertical rules */
+}
+
+.title {
+  font-size: clamp(88px, 27vw, 210px);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.82;
+  margin: 0 0 -0.1em -0.04em;
+  position: relative;
+  z-index: 1;
+}
+
+/* Five thin vertical rules down the right edge, like the poster. */
+.rule {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 22px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--fg) 0 1.5px,
+    transparent 1.5px 5px
+  );
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.block {
+  padding: 22px 14px 26px;
+}
+
+.light {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.dark {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+.heading {
+  font-size: clamp(26px, 7.5vw, 52px);
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 16px;
+  line-height: 1;
+}
+
+.subheading {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 14px 0 6px;
+}
+
+.group:first-of-type .subheading {
+  margin-top: 0;
+}
+
+.art {
+  width: 100%;
+  min-height: 240px;
+  height: 100%;
+}
+
+.block:has(.art) {
+  padding: 0;
+  display: flex;
+}
+
+.note {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  padding: 40px 0 16px;
+}
+
+.items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.line {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.name {
+  flex: 1 1 auto;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.inlineDesc {
+  flex: 1 1 auto;
+  font-style: italic;
+  font-size: 11px;
+}
+
+.name + .inlineDesc + .dots,
+.inlineDesc { margin-left: -2px; }
+.line:has(.inlineDesc) .name { flex: 0 1 auto; }
+
+.dots {
+  flex: 0 0 auto;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+}
+
+.price {
+  font-style: italic;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.desc {
+  font-size: 10.5px;
+  font-style: italic;
+  margin: 1px 0 0 10px;
+}
+
+.meta {
+  font-size: 9.5px;
+  margin: 1px 0 0 10px;
+}
+
+.label {
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@media (min-width: 720px) {
+  .main {
+    padding: 56px 24px 16px;
+  }
+  .poster {
+    padding-right: 40px;
+  }
+  .rule {
+    width: 28px;
+  }
+  .grid {
+    gap: 16px;
+  }
+  .block {
+    padding: 32px 28px 36px;
+  }
+  .subheading { font-size: 16px; }
+  .name, .price { font-size: 17px; }
+  .inlineDesc { font-size: 14px; }
+  .desc { font-size: 13px; margin-left: 14px; }
+  .meta { font-size: 12px; margin-left: 14px; }
+  .art {
+  width: 100%;
+  min-height: 240px;
+  height: 100%;
+}
+
+.block:has(.art) {
+  padding: 0;
+  display: flex;
+}
+
+.note { font-size: 15px; padding: 56px 0 24px; }
+  .items { gap: 12px; }
 }

@@ -1,0 +1,20 @@
+{
+  "sheetId": "1RezABS51ZQvAP5kZ2sY6-uU_5kPBuqCmNsJs3Bh7358",
+  "tabs": {
+    "draft": {
+      "hours": 0,
+      "menu": 2033151839,
+      "settings": 1602449650,
+      "links": 1580730320
+    },
+    "live": {
+      "hours": 353904103,
+      "menu": 979317299,
+      "settings": 1953328501,
+      "links": 943944115
+    }
+  },
+  "cacheSeconds": 86400,
+  "refreshTokenHash": "37867efc84b0bec27753af59560068182ca8266736cbcce12ead4e4af02bf341",
+  "contactEndpoint": "https://script.google.com/macros/s/AKfycbwly63z75u0JD5dLNn3PFYqLq-gM49Taz264_tc01vU8DHSSoehIdIlaB7jSa2MHmC0/exec"
+}

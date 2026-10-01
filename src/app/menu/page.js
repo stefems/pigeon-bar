@@ -1,27 +1,81 @@
+import Nav from "../../components/Nav";
+import { getContent } from "../../lib/sheets";
 import styles from "./page.module.css";
-import Image from "next/image";
-import Link from 'next/link'
 
-export default function Page({ params, searchParams }) {
-    return (
-      <div>
-        <nav className={styles.nav}>
-          <Link href="/">home</Link>
-        </nav>
-        <Image
-          loading="eager"
-          fetchPriority="high"
-          width="500" height="500"
-          alt={"menu"}
-          className={styles.menu}
-          src="/menu.png"
-        />
-        <nav  className={styles.nav}>
-          <Link href="https://maps.app.goo.gl/cRxxzn8TKhwysGsa8">location</Link>
-          <Link href="/hours">hours</Link>
-          <Link href="/menu">menu</Link>
-          <Link href="mailto:pigeondenver@gmail.com">contact</Link>
-        </nav>
-      </div>
-    )
-  }
+export const metadata = { title: "Menu | Pigeon Bar" };
+
+function Items({ items }) {
+  return (
+    <ul className={styles.items}>
+      {items.map((item) => (
+        <li key={item.name} className={styles.item}>
+          <div className={styles.line}>
+            <span className={styles.name}>{item.name}</span>
+            {item.desc && !item.notes && item.desc.length <= 8 && (
+              <span className={styles.inlineDesc}>{item.desc}</span>
+            )}
+            <span className={styles.dots} aria-hidden="true">...</span>
+            {item.price && <span className={styles.price}>{item.price}</span>}
+          </div>
+          {item.desc && (item.notes || item.desc.length > 8) && (
+            <p className={styles.desc}>{item.desc}</p>
+          )}
+          {item.notes && (
+            <p className={styles.meta}>
+              <span className={styles.label}>Notes:</span> {item.notes}
+            </p>
+          )}
+          {item.pairing && (
+            <p className={styles.meta}>
+              <span className={styles.label}>Pairing:</span> {item.pairing}
+            </p>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Checkerboard: blocks 1, 2, 5, 6, ... are light; 0, 3, 4, 7, ... are dark.
+const isLight = (i) => i % 4 === 1 || i % 4 === 2;
+
+export default async function MenuPage() {
+  const { menu } = await getContent();
+  return (
+    <>
+      <main className={styles.main}>
+        <div className={styles.poster}>
+          <h1 className={styles.title}>Menu</h1>
+          <div className={styles.grid}>
+            {menu.map((section, i) => (
+              <section
+                key={section.title || `art-${i}`}
+                className={`${styles.block} ${isLight(i) ? styles.light : styles.dark}`}
+              >
+                {section.title && <h2 className={styles.heading}>{section.title}</h2>}
+                {section.note && <p className={styles.note}>{section.note}</p>}
+                {section.image && (
+                  <div
+                    className={`tinted ${styles.art}`}
+                    role="img"
+                    aria-label={section.title || "Menu artwork"}
+                    style={{ WebkitMaskImage: `url(${section.image})`, maskImage: `url(${section.image})` }}
+                  />
+                )}
+                {section.items && <Items items={section.items} />}
+                {section.groups?.map((group) => (
+                  <div key={group.title} className={styles.group}>
+                    <h3 className={styles.subheading}>{group.title}</h3>
+                    <Items items={group.items} />
+                  </div>
+                ))}
+              </section>
+            ))}
+          </div>
+          <div className={styles.rule} aria-hidden="true" />
+        </div>
+      </main>
+      <Nav homeOnly />
+    </>
+  );
+}

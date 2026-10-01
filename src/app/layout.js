@@ -1,57 +1,44 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Jost, Josefin_Sans } from "next/font/google";
+import { preload } from "react-dom";
 import "./globals.css";
-import Head from 'next/head';
-import Image from "next/image";
-import styles from "./page.module.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jost = Jost({
+  variable: "--font-body",
   subsets: ["latin"],
+  weight: ["400", "500", "700"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const josefin = Josefin_Sans({
+  variable: "--font-nav",
   subsets: ["latin"],
+  weight: ["300"],
 });
 
 export const metadata = {
   title: "Pigeon Bar",
-  description: "Pigeon Bar",
+  description: "Pigeon Bar, Denver",
+  manifest: "/site.webmanifest",
+  appleWebApp: { title: "Pigeon Bar" },
+  icons: {
+    icon: [
+      { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
+};
+
+export const viewport = {
+  themeColor: "#000000",
 };
 
 export default function RootLayout({ children }) {
+  // The logo is drawn as a CSS mask, which browsers discover late; preload it.
+  preload("/logo-mask.png", { as: "image", fetchPriority: "high" });
   return (
-    <html lang="en">
-      <Head>
-        <title>Pigeon Bar</title>
-        <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <meta name="apple-mobile-web-app-title" content="Pigeon Bar" />
-        <link rel="manifest" href="/site.webmanifest" />
-      </Head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-        <Image
-          loading="eager"
-          fetchPriority="high"
-          width="500" height="500"
-          // sizes="(max-width: 1080px) 100vw, 33vw"
-          alt={"highlight applied to page"}
-          className={styles.highlight}
-          src="/Highlight.png"
-        />
-        <Image
-          loading="eager"
-          fetchPriority="high"
-          width="500" height="500"
-          // sizes="(max-width: 1080px) 100vw, 33vw"
-          alt={"texture applied to page"}
-          className={styles.texture}
-          src="/Texture.png"
-        />
-      </body>
+    <html lang="en" className={`${jost.variable} ${josefin.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

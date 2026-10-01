@@ -1,0 +1,209 @@
+{
+  "sections": [
+    {
+      "title": "Cocktails",
+      "note": "",
+      "items": [
+        {
+          "name": "Greek Ambassador",
+          "price": "$16",
+          "desc": "Sideritis Vodka, Poli Camomilla, Bianco Ambrato, Mastiha, Oregano"
+        },
+        {
+          "name": "Pa'rriba",
+          "price": "$15",
+          "desc": "Agua de Bolivia, Aquardiente, Yerba + Bay Syrup, Lime"
+        },
+        {
+          "name": "Postcard No. 9",
+          "price": "$16",
+          "desc": "Peach Blossom Infused Oka Gin, Bitter Bianca, Antica Torino Bianco"
+        },
+        {
+          "name": "Crayola",
+          "price": "$15",
+          "desc": "Tequila, Genepy, Cantaloupe, Olive Oil"
+        },
+        {
+          "name": "Riposte",
+          "price": "$16",
+          "desc": "Mezcal, Sotol, Vetiver Syrup"
+        },
+        {
+          "name": "Periodical",
+          "price": "$MP",
+          "desc": "A monthly rotation of seasonally inspired cocktails."
+        }
+      ],
+      "groups": []
+    },
+    {
+      "title": "Soda",
+      "note": "",
+      "items": [
+        {
+          "name": "Cola",
+          "price": "$5",
+          "notes": "Citrus, Cardamom, Patchouli, Unrefined Cane Sugar",
+          "pairing": "Bourbon, Rye, Repo & Salt, Fernet"
+        },
+        {
+          "name": "Tonic",
+          "price": "$5",
+          "notes": "Lemongrass, Gentian, Chincona & Lavender",
+          "pairing": "Gin, Vodka, Salers Apertif"
+        },
+        {
+          "name": "Lemon-Lime",
+          "price": "$5",
+          "notes": "Lemon & Lime Oleo, Citric & Malic Acid",
+          "pairing": "Gin, Vodka, Cocchi Americano"
+        },
+        {
+          "name": "Belfast Ginger-Ale",
+          "price": "$5",
+          "notes": "Extracted Ginger, Cayenne, Rose oil, Cognac oil",
+          "pairing": "Whisky, Cognac, Rum & Lime"
+        },
+        {
+          "name": "Grapefruit Soda",
+          "price": "$5",
+          "notes": "Grapefruit Peel Oleo, Hibiscus, Citric Acid",
+          "pairing": "Tequila, Mezcal, Apertif"
+        }
+      ],
+      "groups": []
+    },
+    {
+      "title": "Beer",
+      "note": "",
+      "items": [],
+      "groups": [
+        {
+          "title": "Cans / Bottles",
+          "items": [
+            {
+              "name": "Menabrea",
+              "price": "$10"
+            },
+            {
+              "name": "Kirin",
+              "price": "$7"
+            },
+            {
+              "name": "Tsing tao",
+              "price": "$7"
+            },
+            {
+              "name": "Bohemia",
+              "price": "$6"
+            },
+            {
+              "name": "Saison Dupont",
+              "price": "$24",
+              "desc": "750mL"
+            },
+            {
+              "name": "Field Recordings Cider",
+              "price": "$24",
+              "desc": "750mL"
+            }
+          ]
+        },
+        {
+          "title": "Draft",
+          "items": [
+            {
+              "name": "Bavik Pils",
+              "price": "$8"
+            },
+            {
+              "name": "Waldschanke Cider",
+              "price": "$7"
+            },
+            {
+              "name": "Cerebral West Coast IPA",
+              "price": "$8"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Wine",
+      "note": "",
+      "items": [],
+      "groups": [
+        {
+          "title": "By the glass",
+          "items": [
+            {
+              "name": "DTW Red Blend",
+              "price": "$12",
+              "desc": "Oregon. Organic & Bio-Dynamic. Gamay-Pinot Blend."
+            },
+            {
+              "name": "Margins",
+              "price": "$11",
+              "desc": "California. Organic, Natural. Grenache, Chenin Blanc, Pinot Blend."
+            },
+            {
+              "name": "Michi's Farm White",
+              "price": "$12",
+              "desc": "Austria. Organic. White Blend."
+            },
+            {
+              "name": "Mercat Brut Cava",
+              "price": "$10",
+              "desc": "Barcelona. Natural. Sparkling."
+            },
+            {
+              "name": "Fallen Grape Orange",
+              "price": "$10",
+              "desc": "California. Organic. Skin Contact."
+            },
+            {
+              "name": "Rikyu Sake",
+              "price": "$10",
+              "desc": "Tokebtsu Junmai. Sake."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "note": "",
+      "items": [],
+      "groups": [],
+      "image": "/menu-chess.png"
+    },
+    {
+      "title": "Non-Alc",
+      "note": "",
+      "items": [
+        {
+          "name": "Rabarbaro",
+          "price": "$8",
+          "desc": "N/A Amaro with Smoke, Rhubarb, Hibiscus & Rose"
+        },
+        {
+          "name": "Apertif",
+          "price": "$8",
+          "desc": "N/A Aperitif with Chamomile, Juniper, Lavender & Honey"
+        },
+        {
+          "name": "Club-Mate",
+          "price": "$6",
+          "desc": "Mate Leaf Extract, Cane Sugar, Citric Acid & Bubbles"
+        },
+        {
+          "name": "House Made Soda's",
+          "price": "$5",
+          "desc": "Cola, Tonic, Lemon-Lime, Ginger-Ale & Grapefruit"
+        }
+      ],
+      "groups": []
+    }
+  ]
+}
