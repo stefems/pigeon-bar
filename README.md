@@ -46,7 +46,8 @@ shown; any other label renders as text.
 2. **Share it:** Share → Anyone with the link → Viewer.
 3. **Point the site at it.** Copy the ID from the sheet URL
    (`docs.google.com/spreadsheets/d/<ID>/edit`) into `sheetId` in
-   `src/content/sheet.json`. Commit and push.
+   `src/content/sheet.json`, and each tab's `gid` (the number after `gid=` in
+   the URL when that tab is open) into `tabs`. Commit and push.
 4. **Refresh token.** Run `npm run make-token`. Put the printed *hash* in
    `refreshTokenHash` in `src/content/sheet.json` (commit it). Keep the *token*
    private. (The hash currently committed has its token in `.refresh-token` on

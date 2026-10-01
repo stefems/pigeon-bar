@@ -1,7 +1,8 @@
 // Reads site content from a public Google Sheet, falling back to the JSON
 // snapshots in src/content/ when the sheet is unreachable or malformed.
 //
-// Sheet layout (one tab each, header row required, column order doesn't matter):
+// Sheet layout (one tab each, identified by gid in sheet.json; header row
+// required, column order doesn't matter):
 //   Hours:    Day | Time
 //   Menu:     Section | Group | Name | Price | Description | Notes | Pairing | Image
 //   Settings: Key | Value            (keys: name, email, mapsUrl)
@@ -22,10 +23,11 @@ export const SHEET_TAG = "sheet";
 
 const isNode = typeof process !== "undefined" && !process.env.NEXT_RUNTIME && !globalThis.__NEXT_DATA__;
 
-function tabUrl(tab) {
-  // gviz export is near real-time for sheets shared "anyone with the link",
-  // unlike "publish to web" which lags several minutes.
-  return `https://docs.google.com/spreadsheets/d/${sheetConfig.sheetId}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(tab)}`;
+function tabUrl(gid) {
+  // Plain CSV export of one tab (by gid, from the tab's URL). Live for sheets
+  // shared "anyone with the link", and it exports cells as displayed, so
+  // "$MP" or "4 pm - 12 am" come through as typed.
+  return `https://docs.google.com/spreadsheets/d/${sheetConfig.sheetId}/export?format=csv&gid=${gid}`;
 }
 
 async function fetchTab(tab) {
@@ -43,6 +45,11 @@ export function parseHours(rows) {
   return rowsToObjects(rows, ["day", "time"])
     .filter((r) => r.day)
     .map((r) => ({ day: r.day, time: r.time }));
+}
+
+// Sheets turns "$16" into the number 16; put the dollar sign back.
+function normalizePrice(p) {
+  return /^\d+(\.\d+)?$/.test(p) ? `$${p}` : p;
 }
 
 export function parseMenu(rows) {
@@ -64,7 +71,7 @@ export function parseMenu(rows) {
       continue;
     }
     const item = { name: r.name };
-    if (r.price) item.price = r.price;
+    if (r.price) item.price = normalizePrice(r.price);
     if (r.description) item.desc = r.description;
     if (r.notes) item.notes = r.notes;
     if (r.pairing) item.pairing = r.pairing;
@@ -101,7 +108,7 @@ export function parseSite(settingsRows, linksRows) {
 // Fetch everything from the sheet. Throws on any problem; callers decide the fallback.
 export async function fetchSheetContent() {
   if (!sheetConfig.sheetId) throw new Error("no sheetId configured");
-  const t = sheetConfig.tabs;
+  const t = sheetConfig.tabs; // tab name -> gid (see src/content/sheet.json)
   const [hours, menu, settings, links] = await Promise.all([
     fetchTab(t.hours), fetchTab(t.menu), fetchTab(t.settings), fetchTab(t.links),
   ]);
