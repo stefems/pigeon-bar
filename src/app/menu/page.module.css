@@ -79,8 +79,6 @@
   width: 100%;
   min-height: 240px;
   height: 100%;
-  -webkit-mask-mode: luminance;
-  mask-mode: luminance;
 }
 
 .block:has(.art) {
@@ -180,8 +178,6 @@
   width: 100%;
   min-height: 240px;
   height: 100%;
-  -webkit-mask-mode: luminance;
-  mask-mode: luminance;
 }
 
 .block:has(.art) {

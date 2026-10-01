@@ -27,8 +27,6 @@
 .art {
   display: block;
   height: var(--nav-h);
-  -webkit-mask-mode: luminance;
-  mask-mode: luminance;
 }
 
 .text {
