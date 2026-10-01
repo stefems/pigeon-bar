@@ -1,4 +1,6 @@
 import Nav from "../../components/Nav";
+import ContactForm from "../../components/ContactForm";
+import sheetConfig from "../../content/sheet.json" with { type: "json" };
 import { getContent } from "../../lib/sheets";
 import styles from "../hours/page.module.css";
 import local from "./page.module.css";
@@ -14,6 +16,11 @@ export default async function ContactPage() {
     <>
       <main className={styles.main}>
         <h1 className={styles.title}>Contact</h1>
+        {sheetConfig.contactEndpoint && (
+          <section className={local.formWrap}>
+            <ContactForm email={site.email} />
+          </section>
+        )}
         <dl className={local.list}>
           <div className={local.row}>
             <dt className={local.label}>Email</dt>

@@ -77,3 +77,60 @@ function showDiff() {
 function toast(msg) {
   try { SpreadsheetApp.getActiveSpreadsheet().toast(msg, "Pigeon Bar", 8); } catch (e) {}
 }
+
+/* ---------------------------------------------------------------------------
+ * Contact form. The website POSTs to this script's web-app URL (deploy once:
+ * Deploy → New deployment → Web app, execute as Me, access Anyone; paste the URL
+ * into contactEndpoint in src/content/sheet.json). Messages are emailed to the
+ * address in Settings → email and logged in a "Messages" tab.
+ * ------------------------------------------------------------------------- */
+const MAX_PER_HOUR = 5; // per sender email
+
+function doPost(e) {
+  const out = (obj) => ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+  let data = {};
+  try { data = JSON.parse(e.postData.contents || "{}"); } catch (err) { return out({ ok: false, error: "bad json" }); }
+
+  const name = String(data.name || "").trim().slice(0, 200);
+  const email = String(data.email || "").trim().slice(0, 200);
+  const message = String(data.message || "").trim().slice(0, 5000);
+  if (data.website) return out({ ok: true }); // honeypot filled → pretend success
+  if (!name || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return out({ ok: false, error: "missing fields" });
+
+  const cache = CacheService.getScriptCache();
+  const key = "contact:" + email.toLowerCase();
+  const count = Number(cache.get(key) || 0);
+  if (count >= MAX_PER_HOUR) return out({ ok: false, error: "too many messages, try later" });
+  cache.put(key, String(count + 1), 3600);
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const to = settingsValue_(ss, "email");
+  const when = new Date();
+
+  let log = ss.getSheetByName("Messages");
+  if (!log) { log = ss.insertSheet("Messages"); log.appendRow(["Received", "Name", "Email", "Message"]); log.setFrozenRows(1); }
+  log.appendRow([when, name, email, message]);
+
+  if (to) {
+    MailApp.sendEmail({
+      to,
+      replyTo: email,
+      subject: `Pigeon Bar website: message from ${name}`,
+      body: `${message}\n\n—\nFrom: ${name} <${email}>\nSent via pigeonbar.com contact form, ${when.toLocaleString()}`,
+    });
+  }
+  return out({ ok: true });
+}
+
+function doGet() {
+  return ContentService.createTextOutput("Pigeon Bar contact endpoint. POST JSON {name,email,message}.");
+}
+
+function settingsValue_(ss, key) {
+  const sheet = ss.getSheetByName("Live Settings") || ss.getSheetByName("Settings");
+  if (!sheet) return "";
+  for (const [k, v] of sheet.getDataRange().getValues()) {
+    if (String(k).trim().toLowerCase() === key.toLowerCase()) return String(v).trim();
+  }
+  return "";
+}

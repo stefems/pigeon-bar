@@ -1,0 +1,102 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+  text-align: left;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.input {
+  font: inherit;
+  font-size: 17px;
+  color: var(--fg);
+  background: transparent;
+  border: 1px solid var(--line);
+  padding: 12px 14px;
+  border-radius: 0;
+  resize: vertical;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--fg);
+}
+
+.honey {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.button {
+  align-self: flex-start;
+  font: inherit;
+  cursor: pointer;
+  padding: 12px 28px;
+  background: var(--fg);
+  color: var(--bg);
+  border: 1px solid var(--fg);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.button:hover:not(:disabled),
+.button:focus-visible {
+  background: transparent;
+  color: var(--fg);
+  outline: none;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.error {
+  font-size: 14px;
+  color: #f0a0a0;
+}
+
+.error a {
+  text-decoration: underline;
+}
+
+.thanks {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 18px;
+}
+
+.thanksTitle {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.link {
+  font: inherit;
+  margin-top: 16px;
+  background: none;
+  border: 0;
+  color: var(--fg);
+  text-decoration: underline;
+  cursor: pointer;
+}

@@ -15,5 +15,6 @@
     }
   },
   "cacheSeconds": 86400,
-  "refreshTokenHash": "37867efc84b0bec27753af59560068182ca8266736cbcce12ead4e4af02bf341"
+  "refreshTokenHash": "37867efc84b0bec27753af59560068182ca8266736cbcce12ead4e4af02bf341",
+  "contactEndpoint": ""
 }

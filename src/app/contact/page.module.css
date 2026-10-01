@@ -1,3 +1,7 @@
+.formWrap {
+  margin: -8px 0 40px;
+}
+
 .list {
   display: flex;
   flex-direction: column;
