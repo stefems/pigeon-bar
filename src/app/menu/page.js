@@ -1,5 +1,5 @@
 import Nav from "../../components/Nav";
-import { menu } from "../../content";
+import { getContent } from "../../lib/sheets";
 import styles from "./page.module.css";
 
 export const metadata = { title: "Menu | Pigeon Bar" };
@@ -39,7 +39,8 @@ function Items({ items }) {
 // Checkerboard: blocks 1, 2, 5, 6, ... are light; 0, 3, 4, 7, ... are dark.
 const isLight = (i) => i % 4 === 1 || i % 4 === 2;
 
-export default function MenuPage() {
+export default async function MenuPage() {
+  const { menu } = await getContent();
   return (
     <>
       <main className={styles.main}>

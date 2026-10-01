@@ -1,10 +1,11 @@
 import Nav from "../../components/Nav";
-import { hours } from "../../content";
+import { getContent } from "../../lib/sheets";
 import styles from "./page.module.css";
 
 export const metadata = { title: "Hours | Pigeon Bar" };
 
-export default function HoursPage() {
+export default async function HoursPage() {
+  const { hours } = await getContent();
   return (
     <>
       <main className={styles.main}>

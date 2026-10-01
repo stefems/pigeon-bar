@@ -2,43 +2,57 @@
 
 Website for Pigeon Bar, Denver. Built with [Next.js](https://nextjs.org) and deployed on Netlify. Pushes to `main` deploy to pigeonbar.com; pull requests get a Netlify deploy preview.
 
-## Updating content (no code needed)
+## Updating content (Google Sheet)
 
-Go to **https://pigeonbar.com/admin** and sign in with GitHub. The editor
-([Decap CMS](https://decapcms.org)) has three screens:
+Hours, menu and links come from a Google Sheet. Edit the sheet; the site
+updates itself within about a minute. No code, no GitHub.
 
-- **Hours** – one line per day.
-- **Menu** – sections, items, prices, descriptions, notes and pairings.
-- **Site settings** – contact email, Google Maps link, footer links.
+The sheet has four tabs. The header row must stay as is (column order doesn't
+matter, extra columns are ignored):
 
-Click **Publish** and the change is committed to `main`; Netlify rebuilds the
-site in about a minute.
+| Tab | Columns |
+| --- | --- |
+| Hours | Day, Time |
+| Menu | Section, Group, Name, Price, Description, Notes, Pairing |
+| Settings | Key, Value (keys: `name`, `email`, `mapsUrl`) |
+| Links | Label, Link, New tab (yes/no) |
 
-Under the hood the content is plain JSON in `src/content/` (`hours.json`,
-`menu.json`, `site.json`), so it can also be edited directly on GitHub.
+Menu tips: rows are grouped by Section in the order they first appear. Fill
+Group for sub-headings like "Cans / Bottles". A row with a Section but no Name
+sets that section's note (e.g. "Coming soon") from the Description column.
 
-### One-time CMS setup (site owner)
+### How it stays fast and safe
 
-The editor signs in through GitHub, which Netlify brokers. This has to be
-enabled once in the Netlify dashboard:
+- The site caches the sheet for 24 hours (`cacheSeconds` in
+  `src/content/sheet.json`).
+- An Apps Script in the sheet pings `/api/refresh` about a minute after the
+  last edit, which clears that cache. There is also a **Pigeon Bar → Publish
+  changes now** menu in the sheet for a manual refresh.
+- Every night a GitHub Action snapshots the sheet into `src/content/*.json`
+  and commits it. If Google is ever unreachable, pages serve that snapshot.
 
-1. On GitHub: Settings → Developer settings → OAuth Apps → **New OAuth App**.
-   - Homepage URL: `https://pigeonbar.com`
-   - Authorization callback URL: `https://api.netlify.com/auth/done`
-2. On Netlify: the `pigeon-bar` site → Site configuration → Access & security
-   → **OAuth** → Install provider → GitHub. Paste the Client ID and Secret
-   from step 1.
-3. Anyone who should edit the site needs write access to the
-   `stefems/pigeon-bar` GitHub repo.
+### One-time setup
 
-### Editing the CMS locally
+1. **Create the sheet.** New Google Sheet with tabs named `Hours`, `Menu`,
+   `Settings`, `Links`. Import the matching CSV from `google/templates/` into
+   each tab (File → Import → Upload → *Replace current sheet*).
+2. **Share it:** Share → Anyone with the link → Viewer.
+3. **Point the site at it.** Copy the ID from the sheet URL
+   (`docs.google.com/spreadsheets/d/<ID>/edit`) into `sheetId` in
+   `src/content/sheet.json`. Commit and push.
+4. **Refresh token.** Run `npm run make-token`. Put the printed *hash* in
+   `refreshTokenHash` in `src/content/sheet.json` (commit it). Keep the *token*
+   private. (The hash currently committed has its token in `.refresh-token` on
+   the machine that set this up.)
+5. **Install the Apps Script.** In the sheet: Extensions → Apps Script. Paste
+   `google/apps-script.gs`, set `REFRESH_TOKEN`, then follow the install notes
+   at the top of that file to add the on-edit trigger.
+6. **Nightly snapshot** needs nothing: the workflow in
+   `.github/workflows/snapshot-sheet.yml` uses GitHub's built-in token. Run it
+   by hand from the Actions tab the first time to confirm it works.
 
-```bash
-npx decap-server
-```
-
-Then uncomment `local_backend: true` in `public/admin/config.yml`, run the dev
-server and open http://localhost:3000/admin. Re-comment it before committing.
+Manual refresh from anywhere: open
+`https://pigeonbar.com/api/refresh?token=<token>`.
 
 Images live in `public/`. The logo is `public/logo.jpg` and the home-page animation is `public/cubes.mp4` (800×800, no audio, ~2 MB) with `public/cubes-static.png` as its poster. If the video is ever replaced, re-encode it the same way so it stays small:
 

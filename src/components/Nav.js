@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { navLinks } from "../content";
 import styles from "./Nav.module.css";
 
-// Full nav on the home page; sub-pages get a single HOME link (homeOnly).
-export default function Nav({ homeOnly = false }) {
+// Full nav on the home page (pass `links`); sub-pages get a single HOME link.
+export default function Nav({ links = [], homeOnly = false }) {
   if (homeOnly) {
     return (
       <nav className={styles.nav} aria-label="Main">
@@ -13,7 +12,7 @@ export default function Nav({ homeOnly = false }) {
   }
   return (
     <nav className={styles.nav} aria-label="Main">
-      {navLinks.map((link) =>
+      {links.map((link) =>
         link.external || link.href.startsWith("mailto:") ? (
           <a
             key={link.label}

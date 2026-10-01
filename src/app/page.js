@@ -1,7 +1,9 @@
 import Nav from "../components/Nav";
+import { getContent } from "../lib/sheets";
 import styles from "./page.module.css";
 
-export default function Home() {
+export default async function Home() {
+  const { site } = await getContent();
   return (
     <main className={styles.main}>
       <h1 className={`tinted ${styles.logo}`}>
@@ -20,7 +22,7 @@ export default function Home() {
           aria-label="Animated grid of cubes"
         />
       </div>
-      <Nav />
+      <Nav links={site.navLinks} />
     </main>
   );
 }
